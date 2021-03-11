@@ -23,3 +23,8 @@ Role_id INTEGER NOT NULL,
 Manager_id INTEGER,
 PRIMARY KEY(id)
 );
+
+INSERT Department (name)
+VALUE ("Sales"), ("Engineer"), ("Manager");
+
+SELECT * FROM department

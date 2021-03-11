@@ -24,18 +24,18 @@ function firstQuestion() {
 
         }
     ).then(response => {
-        const { answer } = response;
+        const answer = response;
         
-        if (answer === "Add new Data") {
+        if (answer.firstChoice === "Add new Data") {
             addNewData();
         }
-        else if (answer === "Update roles") {
+        else if (answer.firstChoice === "Update roles") {
             updateRoles();
         }
-        else if (answer === "View data") {
+        else if (answer.firstChoice === "View data") {
             viewData();
         }
-        else if (answer === "Delete data") {
+        else if (answer.firstChoice === "Delete data") {
             deleteData();
         }
         else {
@@ -46,5 +46,51 @@ function firstQuestion() {
 
 function exit() {
     connection.end();
-    console.log("You have exited the program")
+    console.log("You have exited the program");
+}
+
+function addNewData() {
+    inquirer.prompt(
+        {
+            type: "list",
+            message: "Please select the data you wish to add:",
+            choices: ["Department", "Roles", "Employee"],
+            name: "dataChoice"
+        }
+    ).then(response => {
+        const answer = response;
+
+        if (answer.dataChoice === "Department") {
+            console.log("Adding new department!");
+            newDepartment();
+        }
+        else if (answer.dataChoice === "Roles") {
+            console.log("Adding new Role!");
+            newRole();
+        }
+        else if (answer.dataChoice === "Employee") {
+            console.log("Adding new Employee!");
+            newEmployee();
+        }
+    });
+}
+
+function newDepartment() {
+    inquirer.prompt(
+        {
+            type: "input",
+            message: "What is the name of the new department?",
+            name: "name"
+        }
+    ).then(input => {
+        insertDepartment(input);
+    });
+}
+
+function insertDepartment(data) {
+    connection.query("INSERT Department SET ?", data, err => {
+        if (err) return console.error(err);
+        console.log(`you have created a new department called ${data.name}!`)
+        firstQuestion();
+    });
 }
