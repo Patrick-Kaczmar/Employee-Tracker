@@ -94,3 +94,63 @@ function insertDepartment(data) {
         firstQuestion();
     });
 }
+
+function newRole() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "What is the name of the new Role you want to add?",
+            name: "Title",
+        },
+        {
+            type: "input",
+            message: "What is the Salary for this postion?",
+            name: "Salary"
+        }
+    ]).then(answers => {
+        insertRole(answers);
+    });
+}
+
+function insertRole(data) {
+    connection.query("INSERT Role SET ?", data, err => {
+        if (err) return console.error(err);
+        console.log(`you have created a new Role called ${data.Title}, with a salary of ${data.Salary}!`)
+        firstQuestion();
+    });
+}
+
+function newEmployee() {
+    inquirer.prompt([
+        {
+            type: "input",
+            message: "what is the employee's first name?",
+            name: "First_name"
+        },
+        {
+            type: "input",
+            message: "what is the employee's last name?",
+            name: "Last_name"
+        },
+        {
+            type: "input",
+            message: "What is the employee's role id?",
+            name: "Role_id",
+        },
+        {
+            type: "input",
+            message: "Please enter this employee's manager id reference if applicable:",
+            name: "Manager_id"
+        }
+    ]).then(input => {
+        insertEmployee(input);
+    })
+}
+
+function insertEmployee(data) {
+    connection.query("INSERT Employee SET ?", data, err => {
+        if (err) return console.error(err);
+        console.log(`you have created a new Employee called ${data.First_name} ${data.Last_name}, with a role id of ${data.Role_id} and manager id of ${data.Manager_id}!`)
+        firstQuestion();
+    });
+}
