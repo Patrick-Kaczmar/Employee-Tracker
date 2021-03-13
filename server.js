@@ -265,8 +265,8 @@ function updateRoles() {
                     name: "roleUpdate"
                 }
             ]).then(response => {
-                const set = response.roleUpdate.value;
-                const where = response.employeeUpdate.value;
+                const set = response.roleUpdate;
+                const where = response.employeeUpdate;
                 connection.query("UPDATE Employee SET Role_id = ? WHERE id = ?", [set, where], err => {
                     if (err) return console.error(err);
                     console.log("Employee's new role has been updated!")
