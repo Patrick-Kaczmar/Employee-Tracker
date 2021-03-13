@@ -11,20 +11,21 @@ PRIMARY KEY(id)
 CREATE TABLE Role (
 id INTEGER AUTO_INCREMENT NOT NULL,
 Title VARCHAR(30) NOT NULL,
-Salary DOUBLE NOT NULL,
+Salary DECIMAL  NOT NULL,
+Department_id INTEGER NOT NULL,
 PRIMARY KEY(id)
 );
 
 CREATE TABLE Employee (
 id INTEGER AUTO_INCREMENT NOT NULL,
 First_name VARCHAR(30) NOT NULL,
-last_name VARCHAR(30) NOT NULL,
+Last_name VARCHAR(30) NOT NULL,
 Role_id INTEGER NOT NULL,
 Manager_id INTEGER,
 PRIMARY KEY(id)
 );
 
-INSERT Department (name)
-VALUE ("Sales"), ("Engineer"), ("Manager");
+ALTER TABLE Employee
+ALTER Manager_id SET DEFAULT NULL;
 
-SELECT * FROM department
+SELECT name AS "Department" FROM Department;
