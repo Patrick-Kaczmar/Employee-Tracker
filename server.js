@@ -165,6 +165,7 @@ function newEmployee() {
                     name: "Manager_id",
                 }
             ]).then(input => {
+                input.Manager_id === "NONE" ? input.Manager_id = null : false
                 insertEmployee(input);
             });
         });
@@ -172,7 +173,6 @@ function newEmployee() {
 }
 
 function insertEmployee(data) {
-    // data.Manager_id === "NONE" ? NULL : true 
     connection.query("INSERT Employee SET ?", data, err => {
         if (err) return console.error(err);
         console.log(`you have created a new Employee called ${data.First_name} ${data.Last_name}, with a role id of ${data.Role_id} and manager id of ${data.Manager_id}!`)
@@ -385,7 +385,7 @@ function updatedata() {
         else if (response.updateChoice === "Employee managers") {
             updateManager();
         }
-    })
+    });
 }
 
 function updateManager() {
@@ -423,7 +423,7 @@ function updateManager() {
                     console.log("Employee's new manager id has been updated!")
                     firstQuestion();
                 });
-            })
-        })
-    })
+            });
+        });
+    });
 }
