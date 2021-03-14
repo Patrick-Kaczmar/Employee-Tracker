@@ -4,9 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
-As a business owner
-I want to be able to view and manage the departments, roles, and employees in my company
-So that I can organize and plan my business
+This application allows the user to create and manipulate data that is used to organize company information. You are able to create departments, Roles and employee's in a structured way that will allow you to view all this data in readable format. The data created is stored in a mysql database, and by using querries to join the data we are able to view any correlating information regarding the company.
 
 ## Table of Contents
 * [Installation](#Installation)
@@ -15,12 +13,11 @@ So that I can organize and plan my business
 * [Questions](#Questions)
 
 ## Installation
-
+Once you have a copy of this repository, run "npm install" in the terminal to download the Packages you will need. These include the "inquirer" and "mysql" modules.
+After you have installed the packages, run the program with "node server" and simply follow the command prompts to create, view, update or delete data.
 
 ## Usage
-
-
-### Link to deployed application on heroku - https://agile-crag-76109.herokuapp.com/
+This application is used entirely through the inquirer module, so once you have started the program you will recieve prompts you must either select from a list of options or answers you can input yourself. Once you have created or deleted data, the console will confirm that the task was complete with a confirm message. To exit the program simply click the "Exit" option from the starting list of options.
 
 ## License
 MIT License - Copyright 2021 Patrick-Kaczmar
