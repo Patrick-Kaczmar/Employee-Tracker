@@ -9,6 +9,7 @@ This application allows the user to create and manipulate data that is used to o
 ## Table of Contents
 * [Installation](#Installation)
 * [Usage](#Usage)
+* [Demonstration](#Demonstration)
 * [License](#License)
 * [Questions](#Questions)
 
@@ -18,6 +19,9 @@ After you have installed the packages, run the program with "node server" and si
 
 ## Usage
 This application is used entirely through the inquirer module, so once you have started the program you will recieve prompts you must either select from a list of options or answers you can input yourself. Once you have created or deleted data, the console will confirm that the task was complete with a confirm message. To exit the program simply click the "Exit" option from the starting list of options.
+
+## Demonstration
+![example-readme-demo](./assets/Employee-tracker-demo.gif)
 
 ## License
 MIT License - Copyright 2021 Patrick-Kaczmar
