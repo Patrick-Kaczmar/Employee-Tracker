@@ -15,7 +15,7 @@ connection.connect((err) => {
     console.log('connected as id ' + connection.threadId);
     firstQuestion();
 });
-
+// Asks the first question of what the user wants to do
 function firstQuestion() {
     inquirer.prompt(
         {
@@ -25,6 +25,7 @@ function firstQuestion() {
             name: "firstChoice"
 
         }
+        // Branches out into separate functions depending on the users answer
     ).then(response => {
         const answer = response;
 
@@ -45,12 +46,12 @@ function firstQuestion() {
         }
     });
 }
-
+// closes the program
 function exit() {
     connection.end();
     console.log("You have exited the program");
 }
-
+// asks the user what type of data they want to add
 function addNewData() {
     inquirer.prompt(
         {
@@ -76,7 +77,7 @@ function addNewData() {
         }
     });
 }
-
+// asks user what to name the new department
 function newDepartment() {
     inquirer.prompt(
         {
@@ -88,7 +89,7 @@ function newDepartment() {
         insertDepartment(input);
     });
 }
-
+// creates the data from the user input using a mysql query
 function insertDepartment(data) {
     connection.query("INSERT Department SET ?", data, err => {
         if (err) return console.error(err);
@@ -96,7 +97,7 @@ function insertDepartment(data) {
         firstQuestion();
     });
 }
-
+// asks the user for the new role information
 function newRole() {
     inquirer.prompt([
         {
@@ -110,7 +111,6 @@ function newRole() {
             name: "Salary"
         },
         {
-            // make this a choice at some point
             type: "input",
             message: "What department does this role belong to?",
             name: "Department_id"
@@ -119,7 +119,7 @@ function newRole() {
         insertRole(answers);
     });
 }
-
+// creates a new role using the user input and a mysql query
 function insertRole(data) {
     connection.query("INSERT Role SET ?", data, err => {
         if (err) return console.error(err);
@@ -127,7 +127,7 @@ function insertRole(data) {
         firstQuestion();
     });
 }
-
+// Asks the user for new employee information and gives a list of roles and managers to choose from 
 function newEmployee() {
     connection.query("SELECT id, Title FROM role", (err, result) => {
         if (err) console.error(err);
@@ -171,7 +171,7 @@ function newEmployee() {
         });
     });
 }
-
+// creates a new employee using the user input and a mysql query
 function insertEmployee(data) {
     connection.query("INSERT Employee SET ?", data, err => {
         if (err) return console.error(err);
@@ -179,7 +179,7 @@ function insertEmployee(data) {
         firstQuestion();
     });
 }
-
+// Asks the user what type of data they wish to view
 function viewData() {
     inquirer.prompt(
         {
@@ -203,7 +203,7 @@ function viewData() {
         }
     });
 }
-
+// gets all information from the mysql department table 
 function viewDepartment() {
     connection.query("SELECT * FROM Department", (err, result) => {
         if (err) return console.error(err);
@@ -211,7 +211,7 @@ function viewDepartment() {
         firstQuestion();
     });
 }
-
+// gets all information from the mysql role table 
 function viewRoles() {
     connection.query("SELECT * FROM Role", (err, result) => {
         if (err) return console.error(err);
@@ -219,7 +219,7 @@ function viewRoles() {
         firstQuestion();
     });
 }
-
+// gets all information from the mysql employee table 
 function viewEmployees() {
     connection.query("SELECT * FROM Employee", (err, result) => {
         if (err) return console.error(err);
@@ -227,7 +227,7 @@ function viewEmployees() {
         firstQuestion();
     });
 }
-
+// gets all information from all the tables with a join query
 function overallData() {
     connection.query("SELECT * FROM Department a INNER JOIN Role b ON a.id = b.Department_id INNER JOIN Employee c ON b.id = c.Role_id", (err, result) => {
         if (err) return console.error(err);
@@ -235,7 +235,7 @@ function overallData() {
         firstQuestion();
     });
 }
-
+// asks the user what employee they want to update and with what role 
 function updateRoles() {
     connection.query("SELECT id, First_name, Last_name, Role_id FROM Employee", (err, result) => {
         if (err) return console.error(err);
@@ -276,7 +276,7 @@ function updateRoles() {
         });
     });
 }
-
+// asks the user what type of data they want to delete
 function deleteData() {
     inquirer.prompt([
         {
@@ -297,7 +297,7 @@ function deleteData() {
         }
     });
 }
-
+// deletes the selected derpartment the users picks using a mysql delete query
 function deleteDeparment() {
     connection.query("SELECT * FROM Department", (err, result) => {
         if (err) return console.error(err);
@@ -321,7 +321,7 @@ function deleteDeparment() {
         });
     });
 }
-
+// deletes the selected role the users picks using a mysql delete query
 function deleteRole() {
     connection.query("SELECT * FROM Role", (err, result) => {
         if (err) return console.error(err);
@@ -345,7 +345,7 @@ function deleteRole() {
         });
     });
 }
-
+// deletes the selected employee the users picks using a mysql delete query
 function deleteEmployee() {
     connection.query("SELECT * FROM Employee", (err, result) => {
         if (err) return console.error(err);
@@ -369,7 +369,7 @@ function deleteEmployee() {
         });
     });
 }
-
+// asks the user what type of data to update 
 function updatedata() {
     inquirer.prompt([
         {
@@ -387,7 +387,7 @@ function updatedata() {
         }
     });
 }
-
+// gives the user a list of employee's to choose from and a manager list to update to the chosen employee
 function updateManager() {
     connection.query("SELECT id, First_name, Last_name, Role_id FROM Employee", (err, result) => {
         if (err) return console.error(err);
