@@ -21,7 +21,7 @@ function firstQuestion() {
         {
             type: "list",
             message: "What would you like to do?",
-            choices: ["Add new Data", "Update roles", "View data", "Delete data", "Exit"],
+            choices: ["Add new Data", "Update data", "View data", "Delete data", "Exit"],
             name: "firstChoice"
 
         }
@@ -31,8 +31,8 @@ function firstQuestion() {
         if (answer.firstChoice === "Add new Data") {
             addNewData();
         }
-        else if (answer.firstChoice === "Update roles") {
-            updateRoles();
+        else if (answer.firstChoice === "Update data") {
+            updatedata();
         }
         else if (answer.firstChoice === "View data") {
             viewData();
@@ -286,13 +286,13 @@ function deleteData() {
             name: "deleteSection",
         }
     ]).then(response => {
-        if (response.deleteSection === "Departments"){
+        if (response.deleteSection === "Departments") {
             deleteDeparment();
         }
-        else if (response.deleteSection === "Roles"){
+        else if (response.deleteSection === "Roles") {
             deleteRole();
         }
-        else if(response.deleteSection === "Employee's"){
+        else if (response.deleteSection === "Employee's") {
             deleteEmployee();
         }
     });
@@ -368,4 +368,62 @@ function deleteEmployee() {
             });
         });
     });
+}
+
+function updatedata() {
+    inquirer.prompt([
+        {
+            type: "list",
+            message: "What would you like to update?",
+            choices: ["Employee roles", "Employee managers"],
+            name: "updateChoice"
+        }
+    ]).then(response => {
+        if (response.updateChoice === "Employee roles") {
+            updateRoles();
+        }
+        else if (response.updateChoice === "Employee managers") {
+            updateManager();
+        }
+    })
+}
+
+function updateManager() {
+    connection.query("SELECT id, First_name, Last_name, Role_id FROM Employee", (err, result) => {
+        if (err) return console.error(err);
+
+        const employeeChoice = result.map(({ id, First_name, Last_name, Role_id }) => ({
+            value: id, name: `${First_name} ${Last_name} ${Role_id}`
+        }));
+
+        connection.query(`SELECT * FROM Employee INNER JOIN Role ON Employee.Role_id = Role.id WHERE Role.Title LIKE "%manager%"`, (err, result) => {
+            if (err) console.error(err);
+            const managerList = result.map(({ id, First_name, last_name }) => ({
+                value: id, name: `${First_name} ${last_name}`
+            }));
+
+            inquirer.prompt([
+                {
+                    type: "list",
+                    message: "What employee would you like to update?",
+                    choices: employeeChoice,
+                    name: "employeePick"
+                },
+                {
+                    type: "list",
+                    message: "Please select a new manager for this employee",
+                    choices: managerList,
+                    name: "managerPick",
+                }
+            ]).then(response => {
+                const set = response.managerPick;
+                const where = response.employeePick;
+                connection.query("UPDATE Employee SET Manager_id = ? WHERE id = ?", [set, where], err => {
+                    if (err) return console.error(err);
+                    console.log("Employee's new manager id has been updated!")
+                    firstQuestion();
+                });
+            })
+        })
+    })
 }
